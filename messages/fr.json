@@ -1,0 +1,118 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "services": "Services",
+    "projects": "Projets",
+    "contact": "Contact",
+    "cta": "Me Contacter"
+  },
+  "hero": {
+    "greeting": "Bonjour, je suis",
+    "name": "Yann Clain",
+    "title": "Développeur web & web mobile | Concepteur D'application",
+    "description": "Passionné par la création et l'innovation, je mets mes compétences au service de vos projets. Actuellement à la recherche d'une entreprise pour une alternance en tant qu'Expert en informatique et systèmes d'information.",
+    "cta_projects": "Voir mes projets",
+    "cta_cv": "Télécharger CV",
+    "stats": {
+      "projects": "Projets",
+      "experience": "Ans d'exp.",
+      "technologies": "Technologies"
+    }
+  },
+  "about": {
+    "badge": "À propos de moi",
+    "title": "Qui suis-je ?",
+    "description": "Passionné par le développement web et mobile, je conçois des solutions digitales innovantes et performantes. Mon expertise couvre le développement full-stack, de la conception à la mise en production.",
+    "bio": "Actuellement en formation pour devenir Expert en informatique et systèmes d'information à La Fabrique Numérique de Pau (2024-2026), je recherche une alternance où je pourrai mettre en pratique mes compétences en tant que CTO / Chef de projet.",
+    "certifications_title": "Certifications",
+    "certifications": {
+      "dev_web": "Développeur web et mobile",
+      "cda": "Concepteur Développeur d'Applications"
+    },
+    "stack_title": "Stack technique"
+  },
+  "services": {
+    "badge": "Ce que je fais",
+    "title": "Mes Services",
+    "description": "Je propose une gamme complète de services pour donner vie à vos projets digitaux.",
+    "items": {
+      "web": {
+        "title": "Développement Web",
+        "description": "Création de sites web et applications web modernes, responsives et performants avec les dernières technologies."
+      },
+      "mobile": {
+        "title": "Développement Mobile",
+        "description": "Applications mobiles cross-platform avec React Native et Expo pour iOS et Android."
+      },
+      "backend": {
+        "title": "Backend & API",
+        "description": "Architecture et développement d'APIs robustes avec Node.js, NestJS, AdonisJS ou Symfony."
+      },
+      "design": {
+        "title": "UI/UX Design",
+        "description": "Conception d'interfaces utilisateur intuitives et esthétiques avec Figma."
+      }
+    }
+  },
+  "projects": {
+    "badge": "Portfolio",
+    "title": "Mes Projets",
+    "description": "Découvrez une sélection de mes réalisations les plus récentes.",
+    "filter_all": "Tous",
+    "filter_web": "Web",
+    "filter_mobile": "Mobile",
+    "filter_desktop": "Desktop",
+    "view_site": "Voir le site",
+    "zoom": "Agrandir",
+    "close": "Fermer",
+    "no_link": "Pas de lien disponible"
+  },
+  "contact": {
+    "badge": "Contact",
+    "title": "Me Contacter",
+    "description": "Pour m'aider à comprendre au mieux votre projet, veuillez me fournir le maximum de détails possible. Plus j'ai d'informations, mieux je peux répondre à vos besoins.",
+    "form": {
+      "name": "Nom complet",
+      "name_placeholder": "Jean Dupont…",
+      "email": "Adresse e-mail",
+      "email_placeholder": "jean@exemple.com…",
+      "subject": "Objet",
+      "subject_placeholder": "Présentation du projet web…",
+      "phone": "Téléphone",
+      "phone_placeholder": "06 54 12 34 56…",
+      "message": "Message",
+      "message_placeholder": "Décrivez votre projet…",
+      "submit": "Envoyer le message",
+      "sending": "Envoi en cours"
+    },
+    "socials_title": "Me suivre",
+    "errors": {
+      "name_required": "Le nom complet est requis",
+      "email_invalid": "L'adresse email doit être valide",
+      "phone_min": "Le numéro de téléphone doit contenir au moins 10 caractères",
+      "phone_max": "Le numéro de téléphone doit contenir au plus 15 caractères",
+      "message_required": "Le message est requis"
+    }
+  },
+  "footer": {
+    "description": "Développeur passionné créant des expériences digitales exceptionnelles.",
+    "navigation": "Navigation",
+    "socials": "Réseaux sociaux",
+    "back_to_top": "Retour en haut",
+    "legal": "Légal",
+    "legal_notice": "Mentions légales",
+    "privacy_policy": "Politique de confidentialité",
+    "copyright": "Tous droits réservés.",
+    "credit": "Créé par Yann avec"
+  },
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système"
+  },
+  "language": {
+    "fr": "Français",
+    "en": "English"
+  }
+}

@@ -1,0 +1,64 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: portfolio-postgres-dev
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-portfolio}
+    ports:
+      - "${POSTGRES_PORT:-5434}:5432"
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - portfolio-network
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: portfolio-web-dev
+    restart: unless-stopped
+    working_dir: /app
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: development
+      WATCHPACK_POLLING: "true"
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - node_modules_dev:/app/node_modules
+      - nextjs_cache_dev:/app/.next
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - portfolio-network
+    command: >
+      sh -c "
+        npx prisma db push &&
+        node scripts/create-admin.js &&
+        npm run dev
+      "
+
+volumes:
+  postgres_data_dev:
+    driver: local
+  node_modules_dev:
+    driver: local
+  nextjs_cache_dev:
+    driver: local
+
+networks:
+  portfolio-network:
+    driver: bridge

@@ -1,0 +1,118 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "projects": "Projects",
+    "contact": "Contact",
+    "cta": "Contact Me"
+  },
+  "hero": {
+    "greeting": "Hello, I'm",
+    "name": "Yann Clain",
+    "title": "Web & Mobile Web Developer | Application Designer",
+    "description": "Passionate about creation and innovation, I put my skills at the service of your projects. Currently looking for a company for an apprenticeship as an IT and Information Systems Expert.",
+    "cta_projects": "View my projects",
+    "cta_cv": "Download CV",
+    "stats": {
+      "projects": "Projects",
+      "experience": "Years exp.",
+      "technologies": "Technologies"
+    }
+  },
+  "about": {
+    "badge": "About me",
+    "title": "Who am I?",
+    "description": "Passionate about web and mobile development, I design innovative and high-performance digital solutions. My expertise covers full-stack development, from design to production.",
+    "bio": "Currently training to become an IT and Information Systems Expert at La Fabrique Numérique in Pau (2024-2026), I'm looking for an apprenticeship where I can apply my skills as CTO / Project Manager.",
+    "certifications_title": "Certifications",
+    "certifications": {
+      "dev_web": "Web and Mobile Developer",
+      "cda": "Application Designer Developer"
+    },
+    "stack_title": "Tech Stack"
+  },
+  "services": {
+    "badge": "What I do",
+    "title": "My Services",
+    "description": "I offer a complete range of services to bring your digital projects to life.",
+    "items": {
+      "web": {
+        "title": "Web Development",
+        "description": "Creating modern, responsive and high-performance websites and web applications with the latest technologies."
+      },
+      "mobile": {
+        "title": "Mobile Development",
+        "description": "Cross-platform mobile applications with React Native and Expo for iOS and Android."
+      },
+      "backend": {
+        "title": "Backend & API",
+        "description": "Architecture and development of robust APIs with Node.js, NestJS, AdonisJS or Symfony."
+      },
+      "design": {
+        "title": "UI/UX Design",
+        "description": "Design of intuitive and aesthetic user interfaces with Figma."
+      }
+    }
+  },
+  "projects": {
+    "badge": "Portfolio",
+    "title": "My Projects",
+    "description": "Discover a selection of my most recent work.",
+    "filter_all": "All",
+    "filter_web": "Web",
+    "filter_mobile": "Mobile",
+    "filter_desktop": "Desktop",
+    "view_site": "View site",
+    "zoom": "Zoom",
+    "close": "Close",
+    "no_link": "No link available"
+  },
+  "contact": {
+    "badge": "Contact",
+    "title": "Contact Me",
+    "description": "To help me better understand your project, please provide as many details as possible. The more information I have, the better I can meet your needs.",
+    "form": {
+      "name": "Full name",
+      "name_placeholder": "John Doe…",
+      "email": "Email address",
+      "email_placeholder": "john@example.com…",
+      "subject": "Subject",
+      "subject_placeholder": "Simplified web project…",
+      "phone": "Phone",
+      "phone_placeholder": "+1 234 567 890…",
+      "message": "Message",
+      "message_placeholder": "Describe your project…",
+      "submit": "Send message",
+      "sending": "Sending"
+    },
+    "socials_title": "Follow me",
+    "errors": {
+      "name_required": "Full name is required",
+      "email_invalid": "Email address must be valid",
+      "phone_min": "Phone number must contain at least 10 characters",
+      "phone_max": "Phone number must contain at most 15 characters",
+      "message_required": "Message is required"
+    }
+  },
+  "footer": {
+    "description": "Passionate developer creating exceptional digital experiences.",
+    "navigation": "Navigation",
+    "socials": "Social networks",
+    "back_to_top": "Back to top",
+    "legal": "Legal",
+    "legal_notice": "Legal notice",
+    "privacy_policy": "Privacy policy",
+    "copyright": "All rights reserved.",
+    "credit": "Created by Yann with"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "language": {
+    "fr": "Français",
+    "en": "English"
+  }
+}
