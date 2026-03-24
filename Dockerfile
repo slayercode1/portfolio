@@ -58,14 +58,14 @@ FROM runner AS runner-with-migrations
 
 USER root
 
-RUN --mount=type=cache,target=/root/.npm \
-    npm install -g prisma@7
-
-# Needed by prisma db push (schema has no inline url)
+COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
+COPY --from=builder /app/node_modules/@prisma/config ./node_modules/@prisma/config
+COPY --from=builder /app/node_modules/@prisma/engines ./node_modules/@prisma/engines
 COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 COPY --chmod=755 scripts/docker-entrypoint.sh /app/scripts/docker-entrypoint.sh
 
-RUN chown -R nextjs:nodejs /app
+RUN ln -s /app/node_modules/prisma/build/bin.mjs /usr/local/bin/prisma && \
+    chown -R nextjs:nodejs /app
 
 USER nextjs
 

@@ -27,7 +27,7 @@ done
 echo "==> Database is ready"
 
 echo "==> Pushing database schema..."
-npx prisma db push --skip-generate
+cd /app && node node_modules/prisma/build/bin.mjs db push --skip-generate
 
 # Idempotent: skips if user already exists
 echo "==> Creating admin user..."
