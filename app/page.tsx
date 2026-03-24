@@ -17,7 +17,7 @@ import {
 } from '@/lib/db/queries'
 import { JsonLd } from '@/components/seo/json-ld'
 
-export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
   const [hero, about, technologies, services, projects, contact, socials, scrollLogos] = await Promise.all([
