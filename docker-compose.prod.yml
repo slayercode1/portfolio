@@ -21,10 +21,7 @@ services:
 
   # One-shot: runs migrations then exits
   migrate:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: runner-with-migrations
+    image: ghcr.io/slayercode1/portfolio:migrate-latest
     container_name: portfolio-migrate
     restart: "no"
     env_file:
@@ -38,10 +35,7 @@ services:
       - db-network
 
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: runner
+    image: ghcr.io/slayercode1/portfolio:latest
     container_name: portfolio-web
     restart: unless-stopped
     env_file:

@@ -26,7 +26,7 @@ ENV NODE_ENV=production \
     PORT=3000 \
     HOSTNAME="0.0.0.0"
 
-LABEL org.opencontainers.image.source="https://github.com/clain/portfolio" \
+LABEL org.opencontainers.image.source="https://github.com/slayercode1/portfolio" \
       org.opencontainers.image.description="Portfolio Next.js application" \
       org.opencontainers.image.licenses="MIT"
 
