@@ -38,9 +38,13 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
+COPY --from=builder /app/node_modules/@prisma/config ./node_modules/@prisma/config
+COPY --from=builder /app/node_modules/@prisma/engines ./node_modules/@prisma/engines
 COPY --from=builder /app/prisma ./prisma
-# Only this script is needed at runtime (not the whole scripts/ folder)
+COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 COPY scripts/create-admin.js ./scripts/create-admin.js
+COPY --chmod=755 scripts/docker-entrypoint.sh ./scripts/docker-entrypoint.sh
 
 RUN chown -R nextjs:nodejs /app
 
@@ -50,23 +54,5 @@ EXPOSE 3000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD wget -qO- http://localhost:3000/api/health || exit 1
-
-CMD ["node", "server.js"]
-
-# Extends runner with Prisma CLI for the init container in docker-compose
-FROM runner AS runner-with-migrations
-
-USER root
-
-COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
-COPY --from=builder /app/node_modules/@prisma/config ./node_modules/@prisma/config
-COPY --from=builder /app/node_modules/@prisma/engines ./node_modules/@prisma/engines
-COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
-COPY --chmod=755 scripts/docker-entrypoint.sh /app/scripts/docker-entrypoint.sh
-
-RUN ln -s /app/node_modules/prisma/build/bin.mjs /usr/local/bin/prisma && \
-    chown -R nextjs:nodejs /app
-
-USER nextjs
 
 CMD ["/app/scripts/docker-entrypoint.sh"]

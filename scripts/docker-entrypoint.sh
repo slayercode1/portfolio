@@ -1,20 +1,16 @@
 #!/bin/sh
 set -e
 
-echo "==> Migration entrypoint starting..."
+# Extract host and port from DATABASE_URL
+DB_HOST=$(echo "$DATABASE_URL" | sed -n 's|.*@\([^:/]*\).*|\1|p')
+DB_PORT=$(echo "$DATABASE_URL" | sed -n 's|.*:\([0-9]*\)/.*|\1|p')
+DB_PORT=${DB_PORT:-5432}
 
-# pg is a production dep available in standalone
-echo "==> Waiting for database connection..."
+echo "==> Waiting for database at ${DB_HOST}:${DB_PORT}..."
 MAX_RETRIES=30
 RETRY_COUNT=0
 
-until node --input-type=module -e "
-  import pg from 'pg';
-  const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
-  pool.query('SELECT 1')
-    .then(() => { pool.end(); process.exit(0); })
-    .catch(() => { pool.end(); process.exit(1); });
-" 2>/dev/null; do
+until node -e "const net=require('net');const s=net.connect(${DB_PORT},'${DB_HOST}',()=>{s.end();process.exit(0)});s.on('error',()=>process.exit(1));setTimeout(()=>process.exit(1),2000)" 2>/dev/null; do
   RETRY_COUNT=$((RETRY_COUNT + 1))
   if [ "$RETRY_COUNT" -ge "$MAX_RETRIES" ]; then
     echo "ERROR: Could not connect to database after $MAX_RETRIES attempts"
@@ -27,10 +23,10 @@ done
 echo "==> Database is ready"
 
 echo "==> Pushing database schema..."
-cd /app && node node_modules/prisma/build/bin.mjs db push --skip-generate
+node node_modules/prisma/build/bin.mjs db push --skip-generate
 
-# Idempotent: skips if user already exists
 echo "==> Creating admin user..."
 node /app/scripts/create-admin.js
 
-echo "==> Migration completed successfully"
+echo "==> Starting server..."
+exec node server.js
