@@ -25,6 +25,9 @@ echo "==> Database is ready"
 echo "==> Pushing database schema..."
 npx prisma db push --url "$DATABASE_URL"
 
+echo "==> Seeding database..."
+node /app/scripts/seed.cjs
+
 echo "==> Creating admin user..."
 node /app/scripts/create-admin.cjs
 
