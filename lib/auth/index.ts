@@ -26,7 +26,7 @@ export const auth = betterAuth({
 
   rateLimit: {
     window: 60,
-    max: 10,
+    max: 100,
   },
 
   trustedOrigins: [process.env.BETTER_AUTH_URL || "http://localhost:3000"],
