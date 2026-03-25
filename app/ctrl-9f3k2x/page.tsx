@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
+import Link from "next/link"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -31,7 +32,7 @@ export default function LoginPage() {
       }
 
       toast.success("Connexion réussie")
-      router.push("/admin")
+      router.push("/ctrl-9f3k2x/dashboard")
     } catch {
       toast.error("Une erreur est survenue")
     } finally {
@@ -40,49 +41,58 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-background via-muted/20 to-background">
-      <div className="w-full max-w-md space-y-8 px-6">
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold">Admin Panel</h1>
-          <p className="text-sm text-muted-foreground">
-            Connectez-vous pour accéder au panneau d&apos;administration
-          </p>
+    <div className="h-screen overflow-hidden relative">
+      <Link
+        href="/"
+        className="absolute top-8 left-8 z-50 flex items-center gap-2 text-2xl font-bold hover:opacity-80 transition-opacity"
+      >
+        <span className="text-primary">Y</span>
+        <span>C</span>
+      </Link>
+      <div className="flex h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-background via-muted/20 to-background">
+        <div className="w-full max-w-md space-y-8 px-6">
+          <div className="text-center space-y-2">
+            <h1 className="text-3xl font-bold">Admin Panel</h1>
+            <p className="text-sm text-muted-foreground">
+              Connectez-vous pour accéder au panneau d&apos;administration
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="admin@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={isLoading}
+                className="h-11"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password">Mot de passe</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={isLoading}
+                className="h-11"
+              />
+            </div>
+
+            <Button type="submit" className="w-full h-11 mt-6" disabled={isLoading}>
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Se connecter
+            </Button>
+          </form>
         </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="admin@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              disabled={isLoading}
-              className="h-11"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="password">Mot de passe</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              disabled={isLoading}
-              className="h-11"
-            />
-          </div>
-
-          <Button type="submit" className="w-full h-11 mt-6" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Se connecter
-          </Button>
-        </form>
       </div>
     </div>
   )

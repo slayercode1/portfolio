@@ -30,7 +30,7 @@ export default async function ProjectsPage() {
             {projects.length} projet{projects.length > 1 ? "s" : ""}
           </p>
           <Button asChild>
-            <Link href="/admin/projects/new">
+            <Link href="/ctrl-9f3k2x/projects/new">
               <Plus className="mr-2 h-4 w-4" />
               Nouveau projet
             </Link>
@@ -44,7 +44,7 @@ export default async function ProjectsPage() {
               Commencez par créer votre premier projet
             </p>
             <Button asChild className="mt-4">
-              <Link href="/admin/projects/new">
+              <Link href="/ctrl-9f3k2x/projects/new">
                 <Plus className="mr-2 h-4 w-4" />
                 Créer un projet
               </Link>
@@ -128,7 +128,7 @@ export default async function ProjectsPage() {
                           </Button>
                         )}
                         <Button variant="ghost" size="icon" asChild>
-                          <Link href={`/admin/projects/${project.id}`}>
+                          <Link href={`/ctrl-9f3k2x/projects/${project.id}`}>
                             <Pencil className="h-4 w-4" />
                           </Link>
                         </Button>

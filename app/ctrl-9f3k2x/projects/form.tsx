@@ -76,8 +76,8 @@ export function ProjectForm({ project }: ProjectFormProps) {
 
     try {
       const url = project
-        ? `/api/admin/projects/${project.id}`
-        : "/api/admin/projects"
+        ? `/api/ctrl-9f3k2x/projects/${project.id}`
+        : "/api/ctrl-9f3k2x/projects"
       const method = project ? "PUT" : "POST"
 
       const res = await fetch(url, {
@@ -89,7 +89,7 @@ export function ProjectForm({ project }: ProjectFormProps) {
       if (!res.ok) throw new Error("Erreur")
 
       toast.success(project ? "Projet mis à jour" : "Projet créé")
-      router.push("/admin/projects")
+      router.push("/ctrl-9f3k2x/projects")
     } catch {
       toast.error("Une erreur est survenue")
     } finally {
@@ -101,7 +101,7 @@ export function ProjectForm({ project }: ProjectFormProps) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" asChild>
-          <Link href="/admin/projects">
+          <Link href="/ctrl-9f3k2x/projects">
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
@@ -225,7 +225,7 @@ export function ProjectForm({ project }: ProjectFormProps) {
 
       <div className="flex justify-end gap-4">
         <Button variant="outline" asChild>
-          <Link href="/admin/projects">Annuler</Link>
+          <Link href="/ctrl-9f3k2x/projects">Annuler</Link>
         </Button>
         <Button type="submit" disabled={isLoading}>
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

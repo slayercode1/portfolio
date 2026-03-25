@@ -1,21 +1,13 @@
-import Link from "next/link"
+import type { Metadata } from "next"
 
-export default function LoginLayout({
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+}
+
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <div className="h-screen overflow-hidden relative">
-      {/* Logo to go back home */}
-      <Link
-        href="/"
-        className="absolute top-8 left-8 z-50 flex items-center gap-2 text-2xl font-bold hover:opacity-80 transition-opacity"
-      >
-        <span className="text-primary">Y</span>
-        <span>C</span>
-      </Link>
-      {children}
-    </div>
-  )
+  return <>{children}</>
 }

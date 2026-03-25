@@ -20,15 +20,15 @@ import { useRouter } from "next/navigation"
 import { LOGIN_PATH } from "@/lib/constants"
 
 const navItems = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/projects", label: "Projets", icon: FolderKanban },
-  { href: "/admin/hero", label: "Hero", icon: Sparkles },
-  { href: "/admin/about", label: "À propos", icon: User },
-  { href: "/admin/services", label: "Services", icon: Briefcase },
-  { href: "/admin/tech-stack", label: "Tech Stack", icon: Code2 },
-  { href: "/admin/socials", label: "Réseaux sociaux", icon: Share2 },
-  { href: "/admin/contact", label: "Contact", icon: Mail },
-  { href: "/admin/settings", label: "Paramètres", icon: Settings },
+  { href: "/ctrl-9f3k2x/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/ctrl-9f3k2x/projects", label: "Projets", icon: FolderKanban },
+  { href: "/ctrl-9f3k2x/hero", label: "Hero", icon: Sparkles },
+  { href: "/ctrl-9f3k2x/about", label: "À propos", icon: User },
+  { href: "/ctrl-9f3k2x/services", label: "Services", icon: Briefcase },
+  { href: "/ctrl-9f3k2x/tech-stack", label: "Tech Stack", icon: Code2 },
+  { href: "/ctrl-9f3k2x/socials", label: "Réseaux sociaux", icon: Share2 },
+  { href: "/ctrl-9f3k2x/contact", label: "Contact", icon: Mail },
+  { href: "/ctrl-9f3k2x/settings", label: "Paramètres", icon: Settings },
 ]
 
 export function Sidebar() {
@@ -45,7 +45,7 @@ export function Sidebar() {
       <div className="flex h-full flex-col">
         {/* Logo */}
         <div className="flex h-16 items-center border-b px-6">
-          <Link href="/admin" className="flex items-center gap-2">
+          <Link href="/ctrl-9f3k2x/dashboard" className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <LayoutDashboard className="h-4 w-4" />
             </div>
@@ -58,7 +58,7 @@ export function Sidebar() {
           {navItems.map((item) => {
             const isActive =
               pathname === item.href ||
-              (item.href !== "/admin" && pathname.startsWith(item.href))
+              (item.href !== "/ctrl-9f3k2x/dashboard" && pathname.startsWith(item.href))
             return (
               <Link
                 key={item.href}
