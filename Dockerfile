@@ -38,15 +38,14 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
-COPY --from=builder /app/node_modules/@prisma/config ./node_modules/@prisma/config
-COPY --from=builder /app/node_modules/@prisma/engines ./node_modules/@prisma/engines
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 COPY scripts/create-admin.js ./scripts/create-admin.js
 COPY --chmod=755 scripts/docker-entrypoint.sh ./scripts/docker-entrypoint.sh
 
-RUN chown -R nextjs:nodejs /app
+RUN --mount=type=cache,target=/root/.npm \
+    npm install --no-save prisma@7 && \
+    chown -R nextjs:nodejs /app
 
 USER nextjs
 

@@ -23,7 +23,7 @@ done
 echo "==> Database is ready"
 
 echo "==> Pushing database schema..."
-node node_modules/prisma/build/index.js db push --skip-generate
+npx prisma db push --skip-generate
 
 echo "==> Creating admin user..."
 node /app/scripts/create-admin.js
