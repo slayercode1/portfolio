@@ -27,9 +27,9 @@ export const projectSchema = z.object({
   hasLiveUrl: z.boolean().optional(),
   isPublished: z.boolean().optional(),
   order: z.number().int().min(0).optional(),
-}).strict()
+})
 
-export const projectUpdateSchema = projectSchema.partial().strict()
+export const projectUpdateSchema = projectSchema.partial().strip()
 
 export const heroSchema = z.object({
   locale: localeSchema,
@@ -47,7 +47,7 @@ export const heroSchema = z.object({
   statsProjects: z.string().max(200).optional(),
   statsExperience: z.string().max(200).optional(),
   statsTechnologies: z.string().max(200).optional(),
-}).strict()
+})
 
 export const aboutSchema = z.object({
   locale: localeSchema,
@@ -62,7 +62,7 @@ export const aboutSchema = z.object({
     key: z.string().max(200).optional(),
     title: z.string().max(500),
   })).max(50).optional(),
-}).strict()
+})
 
 export const technologySchema = z.object({
   name: z.string().min(1).max(100),
@@ -70,9 +70,9 @@ export const technologySchema = z.object({
 
   order: z.number().int().min(0).optional(),
   isActive: z.boolean().optional(),
-}).strict()
+})
 
-export const technologyUpdateSchema = technologySchema.partial().strict()
+export const technologyUpdateSchema = technologySchema.partial().strip()
 
 export const socialSchema = z.object({
   name: z.string().min(1).max(100),
@@ -80,9 +80,9 @@ export const socialSchema = z.object({
   icon: z.string().min(1).max(100),
   order: z.number().int().min(0).optional(),
   isActive: z.boolean().optional(),
-}).strict()
+})
 
-export const socialUpdateSchema = socialSchema.partial().strict()
+export const socialUpdateSchema = socialSchema.partial().strip()
 
 export const serviceSchema = z.object({
   key: z.string().min(1).max(100),
@@ -92,9 +92,9 @@ export const serviceSchema = z.object({
   badgeText: z.string().min(1).max(100),
   order: z.number().int().min(0).optional(),
   isActive: z.boolean().optional(),
-}).strict()
+})
 
-export const serviceUpdateSchema = serviceSchema.partial().strict()
+export const serviceUpdateSchema = serviceSchema.partial().strip()
 
 export const settingsSchema = z.object({
   siteName: z.string().max(200).optional(),
@@ -104,7 +104,7 @@ export const settingsSchema = z.object({
   faviconUrl: safeUrlSchema.optional(),
   metaTitle: z.string().max(200).optional(),
   metaDescription: z.string().max(2000).optional(),
-}).strict()
+})
 
 export const contactSectionSchema = z.object({
   locale: localeSchema,
@@ -124,4 +124,4 @@ export const contactSectionSchema = z.object({
     src: safeUrlSchema,
     alt: z.string().max(200),
   })).max(50).optional(),
-}).strict()
+})
