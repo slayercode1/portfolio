@@ -46,6 +46,7 @@ COPY --chmod=755 scripts/docker-entrypoint.sh ./scripts/docker-entrypoint.sh
 
 RUN --mount=type=cache,target=/root/.npm \
     npm install --no-save prisma@7 && \
+    mkdir -p /app/uploads && \
     chown -R nextjs:nodejs /app
 
 USER nextjs

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { getSession } from "@/lib/auth/server"
 import { projectUpdateSchema } from "@/lib/validations"
+import { deleteUploadedFile } from "@/lib/uploads"
 import { z } from "zod"
 
 export async function GET(
@@ -47,6 +48,14 @@ export async function PUT(
     const body = await request.json()
     const validated = projectUpdateSchema.parse(body)
 
+    // Delete old uploaded image if being replaced
+    if (validated.image) {
+      const existing = await prisma.project.findUnique({ where: { id } })
+      if (existing && existing.image !== validated.image) {
+        await deleteUploadedFile(existing.image)
+      }
+    }
+
     const project = await prisma.project.update({
       where: { id },
       data: validated,
@@ -78,6 +87,11 @@ export async function DELETE(
     }
 
     const { id } = await params
+
+    const project = await prisma.project.findUnique({ where: { id } })
+    if (project) {
+      await deleteUploadedFile(project.image)
+    }
 
     await prisma.project.delete({
       where: { id },

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { toast } from "sonner"
-import { Loader2, ArrowLeft } from "lucide-react"
+import { Loader2, ArrowLeft, Upload } from "lucide-react"
 import Link from "next/link"
 import type { Project } from "@prisma/client"
 
@@ -24,7 +24,7 @@ const projectSchema = z.object({
   title: z.string().min(1, "Le titre est requis"),
   subtitle: z.string().min(1, "Le sous-titre est requis"),
   description: z.string().min(1, "La description est requise"),
-  image: z.string().url("URL invalide").or(z.literal("")),
+  image: z.string().min(1, "L'image est requise"),
   technologies: z.string(),
   category: z.enum(["web", "mobile", "desktop"]),
   websiteUrl: z.string().url("URL invalide").or(z.literal("")),
@@ -41,6 +41,8 @@ interface ProjectFormProps {
 export function ProjectForm({ project }: ProjectFormProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const {
     register,
@@ -63,6 +65,38 @@ export function ProjectForm({ project }: ProjectFormProps) {
     },
   })
 
+  const imageValue = watch("image")
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setIsUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || "Upload failed")
+      }
+
+      const { url } = await res.json()
+      setValue("image", url, { shouldValidate: true })
+      toast.success("Image uploadée")
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Erreur d'upload")
+    } finally {
+      setIsUploading(false)
+      if (fileInputRef.current) fileInputRef.current.value = ""
+    }
+  }
+
   const onSubmit = async (data: ProjectFormData) => {
     setIsLoading(true)
 
@@ -76,8 +110,8 @@ export function ProjectForm({ project }: ProjectFormProps) {
 
     try {
       const url = project
-        ? `/api/ctrl-9f3k2x/projects/${project.id}`
-        : "/api/ctrl-9f3k2x/projects"
+        ? `/api/admin/projects/${project.id}`
+        : "/api/admin/projects"
       const method = project ? "PUT" : "POST"
 
       const res = await fetch(url, {
@@ -142,15 +176,48 @@ export function ProjectForm({ project }: ProjectFormProps) {
           )}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="image">URL de l&apos;image</Label>
-          <Input
-            id="image"
-            {...register("image")}
-            placeholder="https://example.com/image.jpg ou /images/projects/..."
-          />
+        <div className="space-y-2 md:col-span-2">
+          <Label htmlFor="image">Image</Label>
+          <div className="flex gap-2">
+            <Input
+              id="image"
+              {...register("image")}
+              placeholder="https://example.com/image.jpg ou uploader une image"
+              className="flex-1"
+            />
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleUpload}
+              className="hidden"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+            >
+              {isUploading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Upload className="h-4 w-4" />
+              )}
+              <span className="ml-2">Upload</span>
+            </Button>
+          </div>
           {errors.image && (
             <p className="text-sm text-destructive">{errors.image.message}</p>
+          )}
+          {imageValue && (
+            <div className="mt-2">
+              <img
+                src={imageValue}
+                alt="Preview"
+                className="h-24 w-24 rounded-lg object-cover border"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+              />
+            </div>
           )}
         </div>
 
@@ -173,15 +240,6 @@ export function ProjectForm({ project }: ProjectFormProps) {
           </Select>
         </div>
 
-        <div className="space-y-2 md:col-span-2">
-          <Label htmlFor="technologies">Technologies</Label>
-          <Input
-            id="technologies"
-            {...register("technologies")}
-            placeholder="React, TypeScript, Node.js (séparées par des virgules)"
-          />
-        </div>
-
         <div className="space-y-2">
           <Label htmlFor="websiteUrl">URL du site</Label>
           <Input
@@ -194,6 +252,15 @@ export function ProjectForm({ project }: ProjectFormProps) {
               {errors.websiteUrl.message}
             </p>
           )}
+        </div>
+
+        <div className="space-y-2 md:col-span-2">
+          <Label htmlFor="technologies">Technologies</Label>
+          <Input
+            id="technologies"
+            {...register("technologies")}
+            placeholder="React, TypeScript, Node.js (séparées par des virgules)"
+          />
         </div>
 
         <div className="flex items-center gap-6">

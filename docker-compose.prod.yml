@@ -38,6 +38,8 @@ services:
       timeout: 5s
       start_period: 30s
       retries: 3
+    volumes:
+      - uploads_data:/app/uploads
     read_only: true
     tmpfs:
       - /tmp
@@ -57,6 +59,8 @@ services:
 
 volumes:
   postgres_data:
+    driver: local
+  uploads_data:
     driver: local
 
 networks:
