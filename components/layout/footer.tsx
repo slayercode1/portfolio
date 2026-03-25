@@ -16,7 +16,7 @@ export function Footer() {
   const t = useTranslations()
   const pathname = usePathname()
 
-  if (pathname?.startsWith('/admin')) {
+  if (pathname?.startsWith('/admin') || pathname?.startsWith('/ctrl-9f3k2x')) {
     return null
   }
 

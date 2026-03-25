@@ -201,6 +201,11 @@ async function main() {
   const statsFR = [{ value: "5+", label: "Projets réalisés" }, { value: "100%", label: "Satisfaction client" }, { value: "3+", label: "Années d'expérience" }, { value: "15+", label: "Technologies maîtrisées" }];
   const statsEN = [{ value: "5+", label: "Completed projects" }, { value: "100%", label: "Client satisfaction" }, { value: "3+", label: "Years of experience" }, { value: "15+", label: "Technologies mastered" }];
 
+  // Clean child tables first to avoid duplicates on restart
+  await query('DELETE FROM "ContactTechLogo"');
+  await query('DELETE FROM "ContactBenefit"');
+  await query('DELETE FROM "ContactStat"');
+
   const contactFR = await upsert("ContactSection", { locale: "fr" }, {
     id: cuid(), locale: "fr", badge: "Contact", title: "Me Contacter",
     description: "Pour m'aider à comprendre au mieux votre projet, veuillez me fournir le maximum de détails possible.",

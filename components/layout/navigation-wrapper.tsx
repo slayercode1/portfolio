@@ -12,7 +12,7 @@ export function NavigationWrapper() {
     setMounted(true)
   }, [])
 
-  if (pathname?.startsWith('/admin')) {
+  if (pathname?.startsWith('/admin') || pathname?.startsWith('/ctrl-9f3k2x')) {
     return null
   }
 
