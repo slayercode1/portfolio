@@ -40,7 +40,7 @@ COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
-COPY scripts/create-admin.js ./scripts/create-admin.js
+COPY scripts/create-admin.cjs ./scripts/create-admin.cjs
 COPY --chmod=755 scripts/docker-entrypoint.sh ./scripts/docker-entrypoint.sh
 
 RUN --mount=type=cache,target=/root/.npm \
