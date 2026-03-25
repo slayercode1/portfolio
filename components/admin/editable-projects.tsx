@@ -18,7 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Pencil, Loader2, Plus, Trash2, ExternalLink } from "lucide-react"
+import { Pencil, Loader2, Plus, Trash2, ExternalLink, Upload } from "lucide-react"
+import { useRef } from "react"
 import { toast } from "sonner"
 import Image from "next/image"
 
@@ -34,6 +35,53 @@ interface Project {
   hasLiveUrl: boolean
   order: number
   isPublished: boolean
+}
+
+function ImageUploadField({ value, onChange }: { value: string; onChange: (url: string) => void }) {
+  const fileRef = useRef<HTMLInputElement>(null)
+  const [uploading, setUploading] = useState(false)
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    try {
+      const fd = new FormData()
+      fd.append("file", file)
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd })
+      if (!res.ok) throw new Error((await res.json()).error || "Upload failed")
+      const { url } = await res.json()
+      onChange(url)
+      toast.success("Image uploadée")
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Erreur d'upload")
+    } finally {
+      setUploading(false)
+      if (fileRef.current) fileRef.current.value = ""
+    }
+  }
+
+  return (
+    <div className="space-y-2">
+      <Label>Image</Label>
+      <div className="flex gap-2">
+        <Input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="URL ou uploader une image"
+          className="flex-1"
+        />
+        <input ref={fileRef} type="file" accept="image/*" onChange={handleUpload} className="hidden" />
+        <Button type="button" variant="outline" size="icon" onClick={() => fileRef.current?.click()} disabled={uploading}>
+          {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+        </Button>
+      </div>
+      {value && (
+        <img src={value} alt="Preview" className="h-16 w-16 rounded object-cover border"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+      )}
+    </div>
+  )
 }
 
 interface EditableProjectsSectionProps {
@@ -308,16 +356,10 @@ export function EditableProjectsSection({ isPreviewMode }: EditableProjectsSecti
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label>Image URL</Label>
-                <Input
-                  value={selectedProject.image}
-                  onChange={(e) =>
-                    setSelectedProject({ ...selectedProject, image: e.target.value })
-                  }
-                  placeholder="/images/projects/..."
-                />
-              </div>
+              <ImageUploadField
+                value={selectedProject.image}
+                onChange={(url) => setSelectedProject({ ...selectedProject, image: url })}
+              />
 
               <div className="space-y-2">
                 <Label>Catégorie</Label>
@@ -360,6 +402,21 @@ export function EditableProjectsSection({ isPreviewMode }: EditableProjectsSecti
                   }
                   placeholder="https://..."
                 />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="edit-hasLiveUrl"
+                  checked={selectedProject.hasLiveUrl}
+                  onChange={(e) =>
+                    setSelectedProject({ ...selectedProject, hasLiveUrl: e.target.checked })
+                  }
+                  className="h-4 w-4 rounded border-gray-300"
+                />
+                <Label htmlFor="edit-hasLiveUrl" className="text-sm font-normal cursor-pointer">
+                  Afficher le lien sur le site
+                </Label>
               </div>
 
               <div className="flex gap-2 pt-4">
