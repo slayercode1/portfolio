@@ -5,11 +5,11 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Login page path is inlined here (Edge runtime can't import lib/constants)
-  if (pathname.startsWith("/admin") && pathname !== "/admin/x9k2p7a") {
+  if (pathname.startsWith("/admin") && pathname !== "/ctrl-9f3k2x") {
     const sessionCookie = getSessionCookie(request)
 
     if (!sessionCookie) {
-      return NextResponse.redirect(new URL("/admin/x9k2p7a", request.url))
+      return NextResponse.redirect(new URL("/ctrl-9f3k2x", request.url))
     }
 
     // Cookie existence is a lightweight edge check only;

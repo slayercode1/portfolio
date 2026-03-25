@@ -20,7 +20,7 @@ export const SOCIAL_ICONS: Record<string, React.ComponentType<{ className?: stri
   twitter: TwitterLogoIcon,
 }
 
-export const LOGIN_PATH = "/admin/x9k2p7a"
+export const LOGIN_PATH = "/ctrl-9f3k2x"
 
 export function scrollToSection(href: string) {
   document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
