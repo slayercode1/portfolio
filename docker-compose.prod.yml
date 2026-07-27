@@ -1,45 +1,18 @@
 services:
-  postgres:
-    image: postgres:16-alpine
-    container_name: portfolio-postgres
-    restart: unless-stopped
-    env_file:
-      - .env
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - db-network
-
   web:
     image: ghcr.io/slayercode1/portfolio:latest
     container_name: portfolio-web
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
       NODE_ENV: production
     expose:
       - "3000"
-    depends_on:
-      postgres:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]
       interval: 30s
       timeout: 5s
       start_period: 30s
       retries: 3
-    volumes:
-      - uploads_data:/app/uploads
     read_only: true
     tmpfs:
       - /tmp
@@ -54,18 +27,8 @@ services:
         max-size: "10m"
         max-file: "3"
     networks:
-      - db-network
       - caddy-net
 
-volumes:
-  postgres_data:
-    driver: local
-  uploads_data:
-    driver: local
-
 networks:
-  db-network:
-    driver: bridge
-    internal: true
   caddy-net:
     external: true

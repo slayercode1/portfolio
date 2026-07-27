@@ -69,7 +69,6 @@ export default function PolitiqueDeConfidentialitePage() {
               nécessaires au fonctionnement :
             </p>
             <ul className="mt-2 list-disc list-inside space-y-1">
-              <li>Cookie de session pour l&apos;administration du site (better-auth)</li>
               <li>localStorage pour la préférence de thème (clair / sombre)</li>
               <li>localStorage pour la préférence de langue</li>
             </ul>

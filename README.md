@@ -1,30 +1,54 @@
-# React + TypeScript + Vite
+# Portfolio — Yann Clain
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio personnel : [yann-dev.fr](https://yann-dev.fr)
 
-Currently, two official plugins are available:
+Site **100 % statique** — aucune base de données. Tout le contenu (textes,
+projets, réseaux sociaux, stack technique) vit dans un seul fichier :
+[`content/site.json`](content/site.json).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Stack
 
-## Expanding the ESLint configuration
+- [Next.js 16](https://nextjs.org/) (App Router, output standalone)
+- [React 19](https://react.dev/) + TypeScript
+- [Tailwind CSS 4](https://tailwindcss.com/)
+- Design system « Barely There » : interface minimale, typographie d'abord
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Développement
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```bash
+npm install
+npm run dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Le site est accessible sur http://localhost:3000.
+
+## Mettre à jour le contenu
+
+Éditez `content/site.json` :
+
+| Clé            | Contenu                                      |
+| -------------- | -------------------------------------------- |
+| `fr`           | Textes des sections (hero, à propos et contact) |
+| `projects`     | Liste des projets (titre, description, image, technos, lien) |
+| `technologies` | Stack technique affichée dans « À propos »   |
+| `socials`      | Liens réseaux sociaux (footer + contact)     |
+
+Les images des projets vont dans `public/images/projects/`.
+
+## Build & déploiement
+
+```bash
+npm run build   # build de production
+npm run lint    # lint
+```
+
+Le déploiement est automatisé : chaque push sur `main` construit l'image Docker,
+la publie sur GHCR puis la déploie sur le VPS (voir
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)).
+
+Pour tester l'image de production en local :
+
+```bash
+docker build -t portfolio .
+docker run --rm -p 3000:3000 portfolio
+```

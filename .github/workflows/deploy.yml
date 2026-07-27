@@ -71,7 +71,6 @@ jobs:
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.2.0
         env:
-          ENV_FILE: ${{ secrets.ENV }}
           GH_TOKEN: ${{ secrets.GHCR_TOKEN }}
           GH_USER: ${{ github.actor }}
         with:
@@ -79,7 +78,7 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
-          envs: ENV_FILE,GH_TOKEN,GH_USER
+          envs: GH_TOKEN,GH_USER
           script: |
             # Create directory if not exists
             if [ ! -d "/var/html/portfolio" ]; then
@@ -90,9 +89,6 @@ jobs:
             # Copy compose file from temp to target
             cp /tmp/portfolio-deploy/docker-compose.prod.yml /var/html/portfolio/docker-compose.yml
             rm -rf /tmp/portfolio-deploy
-
-            # Create .env file from secret
-            echo "${ENV_FILE}" > /var/html/portfolio/.env
 
             # Go to directory and deploy
             cd /var/html/portfolio

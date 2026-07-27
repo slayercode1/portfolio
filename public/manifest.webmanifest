@@ -4,8 +4,8 @@
   "description": "Portfolio de Yann Clain, développeur web & mobile. Création d'applications web et mobiles sur mesure.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FAFBFC",
-  "theme_color": "#6366F1",
+  "background_color": "#FCFCFC",
+  "theme_color": "#171717",
   "icons": [
     {
       "src": "/favicon.png",
