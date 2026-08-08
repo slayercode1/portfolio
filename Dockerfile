@@ -1,20 +1,19 @@
-FROM node:22-alpine AS deps
+FROM oven/bun:1.3.4-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package.json bun.lock ./
 
-RUN --mount=type=cache,target=/root/.npm \
-    npm ci
+RUN bun install --frozen-lockfile
 
-FROM node:22-alpine AS builder
+FROM oven/bun:1.3.4-alpine AS builder
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN npm run build
+RUN bun run build
 
 FROM node:22-alpine AS runner
 WORKDIR /app

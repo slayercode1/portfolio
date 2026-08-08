@@ -16,8 +16,8 @@ projets, réseaux sociaux, stack technique) vit dans un seul fichier :
 ## Développement
 
 ```bash
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
 Le site est accessible sur http://localhost:3000.
@@ -38,8 +38,8 @@ Les images des projets vont dans `public/images/projects/`.
 ## Build & déploiement
 
 ```bash
-npm run build   # build de production
-npm run lint    # lint
+bun run build   # build de production
+bun run lint    # lint
 ```
 
 Le déploiement est automatisé : chaque push sur `main` construit l'image Docker,

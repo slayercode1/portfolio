@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "packageManager": "bun@1.3.4",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -12,7 +13,7 @@
     "video:render:kodl": "remotion render video/index.ts KodlPreview public/videos/kodl-preview.mp4 --codec=h264 --crf=28 --pixel-format=yuv420p",
     "video:render:finder": "remotion render video/index.ts FinderPreview public/videos/finder-preview.mp4 --codec=h264 --crf=28 --pixel-format=yuv420p",
     "video:render:seigos": "remotion render video/index.ts SeigosPreview public/videos/seigos-preview.mp4 --codec=h264 --crf=28 --pixel-format=yuv420p",
-    "video:render": "npm run video:render:kodl && npm run video:render:finder && npm run video:render:seigos"
+    "video:render": "bun run video:render:kodl && bun run video:render:finder && bun run video:render:seigos"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",
