@@ -1,6 +1,7 @@
 import { ArrowTopRightIcon } from '@radix-ui/react-icons'
 import Image from 'next/image'
 import { SectionHeading } from '@/components/ui/section-heading'
+import { ProjectHoverVideo } from '@/components/ui/marketing-video'
 import { cn } from '@/lib/utils'
 
 interface Project {
@@ -11,6 +12,7 @@ interface Project {
   subtitle: string
   technologies: string[]
   title: string
+  video: string
   websiteUrl: string | null
 }
 
@@ -58,6 +60,10 @@ function ProjectItem({ featured, project }: ProjectItemProps) {
             </p>
           </div>
         )}
+
+        {project.video ? (
+          <ProjectHoverVideo src={project.video} />
+        ) : null}
       </div>
 
       <div className={cn('mt-5', featured && 'max-w-3xl')}>

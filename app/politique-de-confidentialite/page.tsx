@@ -1,117 +1,99 @@
 import type { Metadata } from 'next'
+import { LegalPage, LegalSection } from '@/components/legal/legal-page'
+import { CONTACT_EMAIL } from '@/lib/constants'
 
 export const metadata: Metadata = {
   title: 'Politique de confidentialité',
-  description: 'Politique de confidentialité du site yann-dev.fr — Données collectées, droits RGPD, cookies.',
+  description: 'Fonctionnement du portfolio yann-dev.fr et informations relatives à la confidentialité.',
 }
 
 export default function PolitiqueDeConfidentialitePage() {
   return (
-    <section className="py-20 lg:py-28">
-      <div className="container-custom max-w-3xl">
-        <h1 className="text-3xl font-bold tracking-tight mb-12">Politique de confidentialité</h1>
+    <LegalPage
+      eyebrow="Vie privée"
+      title="Politique de confidentialité"
+      description="Ce portfolio est conçu pour fonctionner avec un minimum de données et sans suivi publicitaire."
+    >
+      <LegalSection title="1. Responsable du site">
+        <p>
+          Yann Clain est responsable du site <strong className="font-semibold text-foreground">yann-dev.fr</strong>.
+          Pour toute question relative à la confidentialité, vous pouvez écrire à{' '}
+          <a className="font-medium text-foreground underline underline-offset-4" href={`mailto:${CONTACT_EMAIL}`}>
+            {CONTACT_EMAIL}
+          </a>.
+        </p>
+      </LegalSection>
 
-        <div className="space-y-10 text-muted-foreground leading-relaxed">
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">1. Responsable du traitement</h2>
-            <p>
-              Le responsable du traitement des données personnelles collectées sur le site{' '}
-              <strong className="text-foreground">yann-dev.fr</strong> est :
-            </p>
-            <ul className="mt-2 list-disc list-inside space-y-1">
-              <li>Yann Clain</li>
-              <li>Adresse e-mail : contact@yann-dev.fr</li>
-            </ul>
-          </div>
+      <LegalSection title="2. Aucune collecte par formulaire">
+        <p>
+          Le site ne comporte aucun formulaire de contact, espace personnel ou compte utilisateur. Il
+          n’enregistre donc ni nom, ni numéro de téléphone, ni message dans une base de données.
+        </p>
+        <p>
+          L’adresse e-mail de Yann Clain est seulement affichée et peut être copiée. Si vous choisissez
+          ensuite d’envoyer un e-mail depuis votre propre messagerie, cet échange a lieu en dehors du site et
+          contient uniquement les informations que vous décidez de communiquer.
+        </p>
+      </LegalSection>
 
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">2. Données collectées</h2>
-            <p>
-              Dans le cadre du formulaire de contact, les données personnelles suivantes sont collectées :
-            </p>
-            <ul className="mt-2 list-disc list-inside space-y-1">
-              <li>Nom</li>
-              <li>Adresse e-mail</li>
-              <li>Numéro de téléphone</li>
-              <li>Message</li>
-            </ul>
-          </div>
+      <LegalSection title="3. Mesure d’audience et publicité">
+        <p>
+          Aucun outil de mesure d’audience, pixel publicitaire, profilage ou dispositif de suivi entre sites
+          n’est intégré au portfolio.
+        </p>
+      </LegalSection>
 
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">3. Finalité et base légale</h2>
-            <p>
-              Les données sont collectées dans le but de répondre aux demandes de contact. La base légale
-              du traitement est l&apos;intérêt légitime (article 6.1.f du RGPD) : permettre à
-              l&apos;éditeur du site de répondre aux sollicitations reçues via le formulaire de contact.
-            </p>
-          </div>
+      <LegalSection title="4. Stockage local et cookies">
+        <p>
+          Le site mémorise uniquement la préférence de thème clair ou sombre dans le stockage local du
+          navigateur, sous la clé <code className="rounded bg-muted px-1.5 py-0.5 text-sm text-foreground">portfolio-theme</code>.
+          Cette préférence reste sur votre appareil et peut être supprimée depuis les réglages du navigateur.
+        </p>
+        <p>Aucun cookie publicitaire ou de mesure d’audience n’est déposé par le site.</p>
+      </LegalSection>
 
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">4. Durée de conservation</h2>
-            <p>
-              Les données personnelles collectées via le formulaire de contact sont conservées pour une
-              durée maximale de 12 mois à compter de la réception du message, puis supprimées.
-            </p>
-          </div>
+      <LegalSection title="5. Données techniques nécessaires">
+        <p>
+          Comme tout service web, le serveur d’hébergement et le réseau de diffusion Cloudflare peuvent
+          traiter temporairement des données techniques telles que l’adresse IP, la date de la requête, la
+          page demandée et le type de navigateur. Elles servent à acheminer les pages, sécuriser le service et
+          diagnostiquer les erreurs.
+        </p>
+        <p>
+          Les vidéos de projets sont hébergées directement sur yann-dev.fr. Leur lecture ne déclenche pas de
+          connexion à une plateforme vidéo tierce.
+        </p>
+      </LegalSection>
 
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">5. Destinataires des données</h2>
-            <p>
-              Les données collectées sont exclusivement destinées à Yann Clain. Elles ne sont transmises
-              à aucun tiers, ni utilisées à des fins commerciales ou publicitaires.
-            </p>
-          </div>
+      <LegalSection title="6. Liens vers des services externes">
+        <p>
+          Les liens vers les projets et réseaux sociaux ne transmettent des informations à ces services
+          qu’après votre clic. Leur traitement des données relève alors de leurs propres politiques de
+          confidentialité.
+        </p>
+      </LegalSection>
 
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">6. Cookies</h2>
-            <p>
-              Le site utilise uniquement des cookies et mécanismes de stockage techniques, strictement
-              nécessaires au fonctionnement :
-            </p>
-            <ul className="mt-2 list-disc list-inside space-y-1">
-              <li>localStorage pour la préférence de thème (clair / sombre)</li>
-              <li>localStorage pour la préférence de langue</li>
-            </ul>
-            <p className="mt-2">
-              Aucun cookie de tracking, d&apos;analyse ou publicitaire n&apos;est utilisé. Ces cookies
-              techniques étant strictement nécessaires, aucun consentement n&apos;est requis conformément
-              à la directive ePrivacy.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">7. Vos droits</h2>
-            <p>
-              Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez
-              des droits suivants concernant vos données personnelles :
-            </p>
-            <ul className="mt-2 list-disc list-inside space-y-1">
-              <li><strong className="text-foreground">Droit d&apos;accès</strong> : obtenir la confirmation que vos données sont traitées et en obtenir une copie</li>
-              <li><strong className="text-foreground">Droit de rectification</strong> : demander la correction de données inexactes ou incomplètes</li>
-              <li><strong className="text-foreground">Droit d&apos;effacement</strong> : demander la suppression de vos données</li>
-              <li><strong className="text-foreground">Droit à la portabilité</strong> : recevoir vos données dans un format structuré et couramment utilisé</li>
-              <li><strong className="text-foreground">Droit d&apos;opposition</strong> : vous opposer au traitement de vos données</li>
-              <li><strong className="text-foreground">Droit à la limitation</strong> : demander la limitation du traitement de vos données</li>
-            </ul>
-            <p className="mt-3">
-              Pour exercer ces droits, contactez : <strong className="text-foreground">contact@yann-dev.fr</strong>
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">8. Réclamation</h2>
-            <p>
-              Si vous estimez que le traitement de vos données personnelles constitue une violation du RGPD,
-              vous avez le droit d&apos;introduire une réclamation auprès de la CNIL (Commission Nationale
-              de l&apos;Informatique et des Libertés) :
-            </p>
-            <ul className="mt-2 list-disc list-inside space-y-1">
-              <li>Site web : www.cnil.fr</li>
-              <li>Adresse : 3, Place de Fontenoy — TSA 80715 — 75334 Paris Cedex 07</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
+      <LegalSection title="7. Vos droits">
+        <p>
+          Vous pouvez demander l’accès, la rectification, l’effacement, la limitation ou l’opposition pour les
+          données personnelles qui seraient détenues à votre sujet, lorsque ces droits sont applicables. Les
+          demandes peuvent être adressées à{' '}
+          <a className="font-medium text-foreground underline underline-offset-4" href={`mailto:${CONTACT_EMAIL}`}>
+            {CONTACT_EMAIL}
+          </a>.
+        </p>
+        <p>
+          Vous pouvez également introduire une réclamation auprès de la{' '}
+          <a
+            className="font-medium text-foreground underline underline-offset-4"
+            href="https://www.cnil.fr"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            CNIL
+          </a>.
+        </p>
+      </LegalSection>
+    </LegalPage>
   )
 }

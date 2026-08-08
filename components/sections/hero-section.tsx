@@ -1,3 +1,5 @@
+import { AmbientScene } from '@/components/visuals/ambient-scene'
+
 interface HeroData {
   name: string
   title: string
@@ -22,6 +24,14 @@ export function HeroSection({ data, socials }: HeroSectionProps) {
   return (
     <section id="home" className="relative min-h-svh overflow-hidden pb-10 pt-28 sm:pt-32">
       <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+      <div
+        className="pointer-events-none absolute inset-y-0 left-0 z-[1] hidden w-[64%] bg-gradient-to-r from-background via-background/90 to-transparent lg:block"
+        aria-hidden="true"
+      />
+      <AmbientScene
+        variant="hero"
+        className="absolute -right-24 top-36 hidden h-[30rem] w-[30rem] opacity-60 md:block lg:-right-12 lg:h-[34rem] lg:w-[34rem] xl:right-2"
+      />
       <p
         className="pointer-events-none absolute -right-8 top-20 hidden select-none text-[clamp(8rem,18vw,17rem)] font-semibold leading-none tracking-[-0.08em] text-foreground/[0.025] lg:block"
         aria-hidden="true"
@@ -29,7 +39,7 @@ export function HeroSection({ data, socials }: HeroSectionProps) {
         01
       </p>
 
-      <div className="section-shell relative flex min-h-[calc(100svh-10.5rem)] flex-col justify-between">
+      <div className="section-shell relative z-10 flex min-h-[calc(100svh-10.5rem)] flex-col justify-between">
         <div className="grid flex-1 items-center gap-12 lg:grid-cols-[minmax(0,1.55fr)_minmax(18rem,0.65fr)] lg:gap-20">
           <div>
             <p className="flex w-fit items-center gap-2 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
@@ -46,7 +56,7 @@ export function HeroSection({ data, socials }: HeroSectionProps) {
             </h1>
           </div>
 
-          <div className="max-w-md lg:pt-28">
+          <div className="relative max-w-md lg:ml-auto lg:mt-20 lg:rounded-2xl lg:bg-background/80 lg:p-6 lg:backdrop-blur-sm">
             <p className="text-lg font-medium leading-7 text-foreground">
               {data.title}
             </p>

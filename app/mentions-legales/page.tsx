@@ -1,81 +1,72 @@
 import type { Metadata } from 'next'
+import { LegalPage, LegalSection } from '@/components/legal/legal-page'
+import { CONTACT_EMAIL } from '@/lib/constants'
 
 export const metadata: Metadata = {
   title: 'Mentions légales',
-  description: 'Mentions légales du site yann-dev.fr - Éditeur, hébergeur, propriété intellectuelle.',
+  description: 'Éditeur, hébergement, propriété intellectuelle et responsabilité du site yann-dev.fr.',
 }
 
 export default function MentionsLegalesPage() {
   return (
-    <section className="py-20 lg:py-28">
-      <div className="container-custom max-w-3xl">
-        <h1 className="text-3xl font-bold tracking-tight mb-12">Mentions légales</h1>
+    <LegalPage
+      eyebrow="Informations légales"
+      title="Mentions légales"
+      description="Les informations relatives à l’édition, à l’hébergement et à l’utilisation de ce portfolio."
+    >
+      <LegalSection title="1. Éditeur du site">
+        <p>
+          Le site <strong className="font-semibold text-foreground">yann-dev.fr</strong> est un portfolio
+          personnel édité par Yann Clain, particulier résidant en France.
+        </p>
+        <p>
+          Contact :{' '}
+          <a className="font-medium text-foreground underline underline-offset-4" href={`mailto:${CONTACT_EMAIL}`}>
+            {CONTACT_EMAIL}
+          </a>
+        </p>
+      </LegalSection>
 
-        <div className="space-y-10 text-muted-foreground leading-relaxed">
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">1. Éditeur du site</h2>
-            <p>
-              Le site <strong className="text-foreground">yann-dev.fr</strong> est édité par :
-            </p>
-            <ul className="mt-2 list-disc list-inside space-y-1">
-              <li>Yann Clain, particulier</li>
-              <li>Adresse e-mail : contact@yann-dev.fr</li>
-            </ul>
-          </div>
+      <LegalSection title="2. Responsable de la publication">
+        <p>
+          Yann Clain est responsable de la publication et peut être contacté à l’adresse indiquée ci-dessus.
+        </p>
+      </LegalSection>
 
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">2. Responsable de la publication</h2>
-            <p>
-              Le responsable de la publication est Yann Clain, joignable à
-              l&apos;adresse e-mail : contact@yann-dev.fr.
-            </p>
-          </div>
+      <LegalSection title="3. Hébergement et diffusion">
+        <p>
+          L’application est déployée sur un serveur privé virtuel auprès d’OVH SAS, 2 rue Kellermann,
+          59100 Roubaix, France — téléphone : +33 9 72 10 10 07.
+        </p>
+        <p>
+          Le trafic public transite par le réseau Cloudflare afin d’améliorer la disponibilité, les
+          performances et la protection du site.
+        </p>
+      </LegalSection>
 
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">3. Hébergeur</h2>
-            <p>Le site est hébergé par :</p>
-            <ul className="mt-2 list-disc list-inside space-y-1">
-              <li>OVH SAS</li>
-              <li>2, rue Kellermann — 59100 Roubaix, France</li>
-              <li>Téléphone : +33 9 72 10 10 07</li>
-              <li>Site web : www.ovhcloud.com</li>
-            </ul>
-          </div>
+      <LegalSection title="4. Propriété intellectuelle">
+        <p>
+          Sauf mention contraire, les textes, la présentation, les créations graphiques et le code propres
+          à ce portfolio sont réalisés par Yann Clain. Les marques, interfaces et contenus relatifs aux
+          projets présentés restent la propriété de leurs titulaires respectifs.
+        </p>
+        <p>
+          Toute reproduction ou adaptation substantielle nécessite une autorisation préalable, sous réserve
+          des exceptions prévues par la loi et des licences éventuellement associées aux ressources tierces.
+        </p>
+      </LegalSection>
 
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">4. Propriété intellectuelle</h2>
-            <p>
-              L&apos;ensemble du contenu de ce site (textes, images, graphismes, logo, icônes, code source)
-              est la propriété exclusive de Yann Clain, sauf mention contraire. Toute reproduction,
-              représentation, modification, publication ou adaptation de tout ou partie des éléments du site,
-              quel que soit le moyen ou le procédé utilisé, est interdite sans l&apos;autorisation écrite
-              préalable de Yann Clain.
-            </p>
-          </div>
+      <LegalSection title="5. Liens externes et responsabilité">
+        <p>
+          Ce portfolio contient des liens vers des sites et dépôts externes. Yann Clain ne contrôle pas leur
+          disponibilité ni leurs contenus. Les informations publiées sur ce site sont fournies à titre de
+          présentation et peuvent évoluer.
+        </p>
+      </LegalSection>
 
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">5. Limitation de responsabilité</h2>
-            <p>
-              Yann Clain s&apos;efforce de fournir sur le site des informations aussi précises que possible.
-              Toutefois, il ne pourra être tenu responsable des omissions, des inexactitudes et des carences
-              dans la mise à jour, qu&apos;elles soient de son fait ou du fait des tiers partenaires qui lui
-              fournissent ces informations.
-            </p>
-            <p className="mt-2">
-              Les liens hypertextes mis en place dans le cadre du présent site en direction d&apos;autres
-              ressources sur Internet ne sauraient engager la responsabilité de Yann Clain.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">6. Droit applicable</h2>
-            <p>
-              Les présentes mentions légales sont régies par le droit français. En cas de litige,
-              les tribunaux français seront seuls compétents.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+      <LegalSection title="6. Droit applicable">
+        <p>Les présentes mentions légales sont soumises au droit français.</p>
+      </LegalSection>
+    </LegalPage>
   )
 }

@@ -12,7 +12,7 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme={props.defaultTheme || 'system'}
+      defaultTheme={props.defaultTheme || 'dark'}
       storageKey={props.storageKey}
       enableSystem
       disableTransitionOnChange

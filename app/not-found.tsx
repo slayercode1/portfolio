@@ -1,11 +1,7 @@
-'use client'
-
-import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
+import Link from 'next/link'
+import { ArrowLeftIcon } from '@radix-ui/react-icons'
 
 export default function NotFound() {
-  const router = useRouter()
-
   return (
     <div className="bg-background min-h-screen">
       <div className="max-w-screen-xl mx-auto px-4 flex items-center justify-start h-screen md:px-8">
@@ -20,9 +16,13 @@ export default function NotFound() {
             Désolé, la page que vous cherchez n&apos;existe pas ou a été déplacée.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <Button variant={"default"} onClick={() => router.push('/')}>
-              Go back
-            </Button>
+            <Link
+              href="/"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/85"
+            >
+              <ArrowLeftIcon aria-hidden="true" />
+              Retour à l&apos;accueil
+            </Link>
           </div>
         </div>
       </div>

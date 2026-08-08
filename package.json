@@ -7,7 +7,12 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "video:studio": "remotion studio video/index.ts --no-open",
+    "video:render:kodl": "remotion render video/index.ts KodlPreview public/videos/kodl-preview.mp4 --codec=h264 --crf=28 --pixel-format=yuv420p",
+    "video:render:finder": "remotion render video/index.ts FinderPreview public/videos/finder-preview.mp4 --codec=h264 --crf=28 --pixel-format=yuv420p",
+    "video:render:seigos": "remotion render video/index.ts SeigosPreview public/videos/seigos-preview.mp4 --codec=h264 --crf=28 --pixel-format=yuv420p",
+    "video:render": "npm run video:render:kodl && npm run video:render:finder && npm run video:render:seigos"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",
@@ -20,16 +25,20 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "sonner": "^2.0.7",
-    "tailwind-merge": "^3.6.0"
+    "tailwind-merge": "^3.6.0",
+    "three": "^0.185.1"
   },
   "devDependencies": {
+    "@remotion/cli": "^4.0.506",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^22.12.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.185.4",
     "eslint": "^9.19.0",
     "eslint-config-next": "16.2.12",
     "postcss": "^8.5.23",
+    "remotion": "^4.0.506",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.7.3"
   }

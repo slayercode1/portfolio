@@ -10,5 +10,5 @@ export function NavigationWrapper() {
     return null
   }
 
-  return <Navigation />
+  return <Navigation showBackLink={pathname !== '/'} />
 }

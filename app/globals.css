@@ -243,11 +243,33 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-color: hsl(var(--highlight) / 0.72) hsl(var(--background));
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
   color-scheme: light;
 }
 
 html.dark {
   color-scheme: dark;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  min-height: 48px;
+  border: 3px solid hsl(var(--background));
+  border-radius: 999px;
+  background: hsl(var(--highlight) / 0.65);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--highlight) / 0.9);
 }
 
 @media (prefers-reduced-motion: reduce) {
