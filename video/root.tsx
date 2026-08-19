@@ -10,11 +10,12 @@ import {
 } from 'remotion'
 
 const FONT_FAMILY = 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif'
+const MONO_FAMILY = 'JetBrains Mono, SFMono-Regular, Menlo, Consolas, ui-monospace, monospace'
 
 type ProjectMarketingProps = {
   eyebrow: string
   title: string
-  variant: 'kanban' | 'finder' | 'dashboard'
+  variant: 'kanban' | 'finder' | 'dashboard' | 'orm'
 }
 
 function WindowBar({ dark, label }: { dark: boolean; label: string }) {
@@ -221,15 +222,217 @@ function SeigosDemo() {
   )
 }
 
+const LUA_TOKEN = /("[^"]*"|\b(?:local|function|end|return|true|false|nil)\b|\b\d+\b)/g
+
+function luaTokenColor(token: string) {
+  if (token.startsWith('"')) return '#f1fa8c'
+  if (/^(local|function|end|return|true|false|nil)$/.test(token)) return '#ff79c6'
+  if (/^\d+$/.test(token)) return '#bd93f9'
+  return '#f8f8f2'
+}
+
+function LuaCode({ text }: { text: string }) {
+  return (
+    <>
+      {text
+        .split(LUA_TOKEN)
+        .filter((token) => Boolean(token))
+        .map((token, index) => (
+          <span key={`${token}-${index}`} style={{ color: luaTokenColor(token) }}>
+            {token}
+          </span>
+        ))}
+    </>
+  )
+}
+
+function OrvexDemo() {
+  const frame = useCurrentFrame()
+  const sqlLines = [
+    'SELECT u.*, v.plate FROM users u',
+    'LEFT JOIN vehicles v',
+    '  ON v.owner = u.identifier',
+    "WHERE u.identifier = 'license:abc123'",
+    '  AND u.money > 500',
+    'ORDER BY u.money DESC LIMIT 10;',
+  ]
+  const luaLines = [
+    'local User = OrvexORM.model("users", {',
+    '  identifier = "string",',
+    '  money = "number",',
+    '})',
+    '',
+    'local player = User.find({',
+    '  identifier = "license:abc123",',
+    '})',
+    'player:update({ money = 1000 })',
+  ]
+  const stats = ['Relations', 'Migrations', 'Cache TTL', '< 0,01 ms / requête']
+
+  return (
+    <div style={{ background: '#282a36', display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <div style={{ display: 'grid', flex: 1, gridTemplateColumns: '0.92fr 1.08fr', minHeight: 0 }}>
+        <div style={{ borderRight: '1px solid rgba(248,248,242,0.08)', padding: '16px 18px', position: 'relative' }}>
+          <div style={{ color: '#6272a4', fontFamily: FONT_FAMILY, fontSize: 10, fontWeight: 780, letterSpacing: '0.14em' }}>
+            SQL ÉCRIT À LA MAIN
+          </div>
+          <div style={{ marginTop: 14, position: 'relative' }}>
+            {sqlLines.map((line, index) => (
+              <div
+                key={line}
+                style={{
+                  color: '#8b93b8',
+                  fontFamily: MONO_FAMILY,
+                  fontSize: 12.5,
+                  lineHeight: '26px',
+                  opacity:
+                    interpolate(frame, [2 + index * 3, 12 + index * 3], [0, 1], {
+                      extrapolateLeft: 'clamp',
+                      extrapolateRight: 'clamp',
+                    }) *
+                    interpolate(frame, [46 + index * 4, 62 + index * 4], [1, 0], {
+                      extrapolateLeft: 'clamp',
+                      extrapolateRight: 'clamp',
+                    }),
+                  translate: interpolate(frame, [46 + index * 4, 68 + index * 4], ['0px 0px', '-14px 0px'], {
+                    easing: Easing.bezier(0.16, 1, 0.3, 1),
+                    extrapolateLeft: 'clamp',
+                    extrapolateRight: 'clamp',
+                  }),
+                  whiteSpace: 'pre',
+                }}
+              >
+                {line}
+              </div>
+            ))}
+          </div>
+          <div
+            style={{
+              left: 18,
+              opacity: interpolate(frame, [70, 88], [0, 1], {
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+              }),
+              position: 'absolute',
+              right: 18,
+              top: 96,
+              translate: interpolate(frame, [70, 94], ['0px 10px', '0px 0px'], {
+                easing: Easing.spring({ damping: 200 }),
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+              }),
+            }}
+          >
+            <div style={{ color: '#50fa7b', fontFamily: MONO_FAMILY, fontSize: 34, fontWeight: 700, letterSpacing: '-0.04em' }}>
+              0
+            </div>
+            <div style={{ color: '#f8f8f2', fontFamily: FONT_FAMILY, fontSize: 15, fontWeight: 730, marginTop: 4 }}>
+              requête SQL écrite
+            </div>
+            <div style={{ color: 'rgba(248,248,242,0.5)', fontFamily: FONT_FAMILY, fontSize: 11.5, lineHeight: '18px', marginTop: 9 }}>
+              Le query builder génère le SQL,
+              <br />
+              les relations et le cache suivent.
+            </div>
+          </div>
+        </div>
+
+        <div style={{ padding: '16px 18px' }}>
+          <div style={{ alignItems: 'center', display: 'flex', gap: 8 }}>
+            <span style={{ background: '#bd93f9', borderRadius: 5, height: 16, width: 16 }} />
+            <span style={{ color: '#f8f8f2', fontFamily: FONT_FAMILY, fontSize: 10, fontWeight: 780, letterSpacing: '0.14em' }}>
+              ORVEXORM · LUA
+            </span>
+          </div>
+          <div style={{ marginTop: 14 }}>
+            {luaLines.map((line, index) => {
+              const start = 24 + index * 9
+              const typed = line.slice(0, Math.max(0, Math.min(line.length, Math.floor((frame - start) * 1.9))))
+              const isTyping = frame >= start && typed.length < line.length
+
+              return (
+                <div
+                  key={`${line}-${index}`}
+                  style={{
+                    fontFamily: MONO_FAMILY,
+                    fontSize: 13,
+                    lineHeight: '26px',
+                    minHeight: 26,
+                    whiteSpace: 'pre',
+                  }}
+                >
+                  <LuaCode text={typed} />
+                  {isTyping ? (
+                    <span
+                      style={{
+                        background: '#bd93f9',
+                        display: 'inline-block',
+                        height: 15,
+                        opacity: frame % 16 < 8 ? 1 : 0.25,
+                        translate: '0px 2px',
+                        width: 2,
+                      }}
+                    />
+                  ) : null}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div
+        style={{
+          alignItems: 'center',
+          borderTop: '1px solid rgba(248,248,242,0.08)',
+          display: 'flex',
+          gap: 9,
+          height: 54,
+          padding: '0 18px',
+        }}
+      >
+        {stats.map((stat, index) => (
+          <span
+            key={stat}
+            style={{
+              background: index === stats.length - 1 ? 'rgba(80,250,123,0.13)' : 'rgba(248,248,242,0.06)',
+              border: index === stats.length - 1 ? '1px solid rgba(80,250,123,0.35)' : '1px solid rgba(248,248,242,0.1)',
+              borderRadius: 99,
+              color: index === stats.length - 1 ? '#50fa7b' : 'rgba(248,248,242,0.68)',
+              fontFamily: FONT_FAMILY,
+              fontSize: 11,
+              fontWeight: 700,
+              opacity: interpolate(frame, [76 + index * 6, 90 + index * 6], [0, 1], {
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+              }),
+              padding: '7px 12px',
+              translate: interpolate(frame, [76 + index * 6, 96 + index * 6], ['0px 10px', '0px 0px'], {
+                easing: Easing.spring({ damping: 200 }),
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+              }),
+            }}
+          >
+            {stat}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function ProjectMarketing({ eyebrow, title, variant }: ProjectMarketingProps) {
   const frame = useCurrentFrame()
   const { durationInFrames } = useVideoConfig()
-  const isFinder = variant === 'finder'
+  const isDark = variant === 'finder' || variant === 'orm'
   const palette = variant === 'kanban'
     ? { accent: '#ff6b35', background: '#faf9f7', ink: '#171410', window: '#ffffff' }
     : variant === 'dashboard'
       ? { accent: '#1268ed', background: '#eef3fb', ink: '#111217', window: '#ffffff' }
-      : { accent: '#8da2ff', background: '#17162f', ink: '#ffffff', window: '#17171a' }
+      : variant === 'orm'
+        ? { accent: '#bd93f9', background: '#1b1a26', ink: '#f8f8f2', window: '#282a36' }
+        : { accent: '#8da2ff', background: '#17162f', ink: '#ffffff', window: '#17171a' }
 
   return (
     <AbsoluteFill
@@ -250,17 +453,17 @@ function ProjectMarketing({ eyebrow, title, variant }: ProjectMarketingProps) {
           <div style={{ color: palette.accent, fontSize: 12, fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{eyebrow}</div>
           <div style={{ fontSize: 42, fontWeight: 730, letterSpacing: '-0.045em', marginTop: 7 }}>{title}</div>
         </div>
-        <div style={{ border: isFinder ? '1px solid rgba(255,255,255,0.17)' : '1px solid rgba(22,19,16,0.14)', borderRadius: 99, fontSize: 11, fontWeight: 750, padding: '8px 12px' }}>APERÇU PRODUIT</div>
+        <div style={{ border: isDark ? '1px solid rgba(255,255,255,0.17)' : '1px solid rgba(22,19,16,0.14)', borderRadius: 99, fontSize: 11, fontWeight: 750, padding: '8px 12px' }}>APERÇU PRODUIT</div>
       </Interactive.Div>
 
       <Interactive.Div
         name="Application window"
         style={{
           background: palette.window,
-          border: isFinder ? '1px solid rgba(255,255,255,0.13)' : '1px solid rgba(22,19,16,0.1)',
+          border: isDark ? '1px solid rgba(255,255,255,0.13)' : '1px solid rgba(22,19,16,0.1)',
           borderRadius: 17,
           bottom: 34,
-          boxShadow: isFinder ? '0 25px 80px rgba(0,0,0,0.34)' : '0 25px 70px rgba(28,23,18,0.12)',
+          boxShadow: isDark ? '0 25px 80px rgba(0,0,0,0.34)' : '0 25px 70px rgba(28,23,18,0.12)',
           left: 34,
           overflow: 'hidden',
           position: 'absolute',
@@ -274,12 +477,21 @@ function ProjectMarketing({ eyebrow, title, variant }: ProjectMarketingProps) {
         }}
       >
         <WindowBar
-          dark={isFinder}
-          label={variant === 'kanban' ? 'kodl.fr · Là où le code rencontre la clarté' : variant === 'dashboard' ? 'SEIGOS · Pilotage en temps réel' : 'Finder · Alt + Espace'}
+          dark={isDark}
+          label={
+            variant === 'kanban'
+              ? 'kodl.fr · Là où le code rencontre la clarté'
+              : variant === 'dashboard'
+                ? 'SEIGOS · Pilotage en temps réel'
+                : variant === 'orm'
+                  ? 'OrvexORM · L’ORM qui fait disparaître le SQL'
+                  : 'Finder · Alt + Espace'
+          }
         />
         <div style={{ height: 'calc(100% - 46px)' }}>
           {variant === 'kanban' ? <KodlDemo /> : null}
           {variant === 'finder' ? <FinderDemo /> : null}
+          {variant === 'orm' ? <OrvexDemo /> : null}
           {variant === 'dashboard' ? <SeigosDemo /> : null}
         </div>
       </Interactive.Div>
@@ -316,6 +528,15 @@ export function RemotionRoot() {
         width={960}
         height={600}
         defaultProps={{ eyebrow: 'Pilotage des TPE et PME', title: 'SEIGOS', variant: 'dashboard' }}
+      />
+      <Composition
+        id="OrvexOrmPreview"
+        component={ProjectMarketing}
+        durationInFrames={135}
+        fps={30}
+        width={960}
+        height={600}
+        defaultProps={{ eyebrow: 'ORM Lua pour FiveM', title: 'OrvexORM', variant: 'orm' }}
       />
     </Folder>
   )

@@ -30,7 +30,8 @@
     "MariaDB",
     "Electron",
     "Vite.js",
-    "Biome"
+    "Biome",
+    "Lua"
   ],
   "projects": [
     {
@@ -64,6 +65,17 @@
       "technologies": ["MySQL", "MariaDB"],
       "category": "web",
       "websiteUrl": "https://seigos.fr/",
+      "hasLiveUrl": true
+    },
+    {
+      "title": "OrvexORM",
+      "subtitle": "Projet open source",
+      "description": "Un ORM léger pour les serveurs FiveM, écrit en Lua et construit sur oxmysql. Modèles, relations, migrations, cache et interface web d'administration : tout est là pour manipuler la base sans écrire une seule requête SQL.",
+      "image": "",
+      "video": "/videos/orvexorm-preview.mp4",
+      "technologies": ["Lua", "MySQL", "MariaDB", "oxmysql"],
+      "category": "librairie",
+      "websiteUrl": "https://slayercode1.github.io/orvexOrm/",
       "hasLiveUrl": true
     }
   ],
