@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     default: 'Yann Clain | Développeur Web & Mobile',
     template: '%s | Yann Clain',
   },
-  description: "Développeur web & mobile passionné par la création d'applications performantes et innovantes. Spécialisé React, Next.js, TypeScript et Node.js.",
+  description: "J'aide les entreprises et les porteurs de projet à transformer leurs processus complexes en applications web et mobile simples, rapides et faciles à maintenir.",
   keywords: ['développeur web', 'développeur mobile', 'React', 'Next.js', 'TypeScript', 'Node.js', 'portfolio', 'Yann Clain', 'freelance', 'full-stack'],
   authors: [{ name: 'Yann Clain', url: SITE_URL }],
   creator: 'Yann Clain',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: 'Yann Clain | Développeur Web & Mobile',
     siteName: 'Yann Clain Portfolio',
     url: SITE_URL,
-    description: "Développeur web & mobile passionné par la création d'applications performantes et innovantes.",
+    description: "Je transforme les processus complexes en applications web et mobile simples, rapides et faciles à maintenir.",
     type: 'website',
     locale: 'fr_FR',
     alternateLocale: 'en_US',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary',
     title: 'Yann Clain | Développeur Web & Mobile',
-    description: "Développeur web & mobile passionné par la création d'applications performantes et innovantes.",
+    description: "Je transforme les processus complexes en applications web et mobile simples, rapides et faciles à maintenir.",
     creator: '@YannLeDev',
   },
   robots: {

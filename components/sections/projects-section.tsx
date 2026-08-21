@@ -113,7 +113,7 @@ export function ProjectsSection({ data: projects }: ProjectsSectionProps) {
         <SectionHeading
           index="02 · Projets"
           title="Projets sélectionnés"
-          description="Des produits sur lesquels j’ai réellement travaillé, de la plateforme métier à l’outil desktop."
+          description="Des problèmes concrets transformés en produits simples, de la plateforme métier à l’outil desktop."
         />
 
         <div className="mt-14 grid gap-x-8 gap-y-16 sm:grid-cols-2">
