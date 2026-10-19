@@ -3,7 +3,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --radius: 0.75rem;
   --radius-lg: var(--radius);
@@ -290,8 +291,9 @@ html.dark {
 body {
   @apply bg-background text-foreground antialiased;
   font-family: var(--font-sans);
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  font-optical-sizing: auto;
   text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -302,6 +304,43 @@ h1, h2, h3, h4, h5, h6 {
 
 ::selection {
   background: hsl(var(--primary) / 0.18);
+}
+
+/* ============================================
+   INTERACTION
+   ============================================ */
+/* Retour immédiat à la pression : la réaction démarre au pointer-down, pas au relâchement. */
+@utility pressable {
+  transition-property: color, background-color, border-color, opacity, scale;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+
+  &:active {
+    scale: 0.97;
+    transition-duration: 100ms;
+  }
+}
+
+/* Surfaces translucides : plus opaques si l'utilisateur réduit la transparence ou augmente le contraste. */
+@media (prefers-reduced-transparency: reduce) {
+  .material {
+    background-color: hsl(var(--background)) !important;
+    backdrop-filter: none !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .material {
+    background-color: hsl(var(--background)) !important;
+    backdrop-filter: none !important;
+    border-color: hsl(var(--foreground) / 0.5) !important;
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+  animation-timing-function: ease-out;
 }
 
 /* ============================================
@@ -317,7 +356,7 @@ h1, h2, h3, h4, h5, h6 {
    LAYOUT
    ============================================ */
 .section-shell {
-  @apply mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-10;
+  @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12 2xl:max-w-[88rem];
 }
 
 .container-narrow {

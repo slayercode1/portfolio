@@ -26,7 +26,7 @@ export function LegalPage({ children, description, eyebrow, title }: LegalPagePr
           </p>
         </header>
 
-        <div className="mt-12 space-y-12 text-[15px] leading-7 text-muted-foreground sm:mt-16">
+        <div className="mt-12 space-y-12 text-[0.9375rem] leading-7 text-muted-foreground sm:mt-16">
           {children}
         </div>
       </div>

@@ -2,17 +2,16 @@
 
 import { useTheme } from "next-themes"
 import { Toaster as Sonner } from "sonner"
-import { useEffect, useState } from "react"
+import { useSyncExternalStore } from "react"
 
 type ToasterProps = React.ComponentProps<typeof Sonner>
 
-const Toaster = ({ ...props }: ToasterProps) => {
-  const [mounted, setMounted] = useState(false)
-  const { theme = "system" } = useTheme()
+const subscribeNoop = () => () => {}
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+const Toaster = ({ ...props }: ToasterProps) => {
+  // Vrai uniquement côté client, sans rendu supplémentaire après l'hydratation.
+  const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false)
+  const { theme = "system" } = useTheme()
 
   if (!mounted) {
     return null

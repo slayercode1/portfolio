@@ -18,7 +18,7 @@ export default function NotFound() {
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/"
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/85"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground pressable hover:bg-primary/85"
             >
               <ArrowLeftIcon aria-hidden="true" />
               Retour à l&apos;accueil

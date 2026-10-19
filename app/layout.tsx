@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import { GeistMono } from 'geist/font/mono'
+import { GeistSans } from 'geist/font/sans'
 import { ThemeProvider } from '@/components/layout/theme-provider'
 import { NavigationWrapper } from '@/components/layout/navigation-wrapper'
 import { Footer } from '@/components/layout/footer'
@@ -54,9 +56,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" suppressHydrationWarning className="scroll-smooth">
+    <html lang="fr" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable} scroll-smooth`}>
       <head>
-        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#1C1C1C" media="(prefers-color-scheme: dark)" />
       </head>

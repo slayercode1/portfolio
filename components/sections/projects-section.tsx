@@ -22,35 +22,53 @@ interface ProjectsSectionProps {
 
 interface ProjectItemProps {
   featured: boolean
+  index: number
   project: Project
+  reversed: boolean
 }
 
-function ProjectItem({ featured, project }: ProjectItemProps) {
+function ProjectItem({ featured, index, project, reversed }: ProjectItemProps) {
   const hasWebsite = project.hasLiveUrl && Boolean(project.websiteUrl)
 
   return (
-    <article className={cn('group', featured && 'sm:col-span-2')}>
+    <article
+      className={cn(
+        'group',
+        featured && 'sm:col-span-2 lg:grid lg:items-center lg:gap-12',
+        featured && (reversed ? 'lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)]' : 'lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]')
+      )}
+    >
       <div
         className={cn(
-          'relative overflow-hidden bg-muted',
-          featured ? 'aspect-[16/10] sm:aspect-[16/7]' : 'aspect-[16/10]'
+          'relative overflow-hidden rounded-2xl bg-muted ring-1 ring-inset ring-border/60',
+          featured ? 'aspect-[16/10] sm:aspect-[2/1] lg:aspect-[16/10]' : 'aspect-[16/10]',
+          featured && reversed && 'lg:order-2'
         )}
       >
-        <span className="absolute left-4 top-4 z-10 inline-flex items-center gap-2 rounded-full bg-background/90 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground backdrop-blur-sm">
+        <span className="material absolute bottom-4 left-4 z-10 inline-flex items-center gap-2 rounded-full bg-background/90 px-3 py-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-foreground backdrop-blur-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-highlight" aria-hidden="true" />
           {project.category}
         </span>
+
+        {hasWebsite ? (
+          <span
+            className="material absolute bottom-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-background/90 text-foreground opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100 max-sm:opacity-100"
+            aria-hidden="true"
+          >
+            <ArrowTopRightIcon className="h-4 w-4" />
+          </span>
+        ) : null}
 
         {project.image ? (
           <Image
             src={project.image}
             alt={`Aperçu du projet ${project.title}`}
             fill
-            sizes={featured ? '(max-width: 768px) calc(100vw - 40px), 1120px' : '(max-width: 640px) calc(100vw - 40px), 550px'}
+            sizes={featured ? '(max-width: 1024px) calc(100vw - 64px), 720px' : '(max-width: 640px) calc(100vw - 40px), 600px'}
             loading="lazy"
             className={cn(
-              'object-cover object-top transition-transform duration-200 ease-out',
-              hasWebsite && 'group-hover:scale-[1.012]'
+              'object-cover object-top transition-transform duration-500 ease-out',
+              hasWebsite && 'group-hover:scale-[1.015]'
             )}
           />
         ) : (
@@ -64,14 +82,24 @@ function ProjectItem({ featured, project }: ProjectItemProps) {
         {project.video ? (
           <ProjectHoverVideo src={project.video} />
         ) : null}
+
+        {hasWebsite ? (
+          <a
+            href={project.websiteUrl ?? undefined}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute inset-0 z-[6] rounded-2xl"
+            tabIndex={-1}
+            aria-hidden="true"
+          />
+        ) : null}
       </div>
 
-      <div className={cn('mt-5', featured && 'max-w-3xl')}>
-        {project.subtitle ? (
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-            {project.subtitle}
-          </p>
-        ) : null}
+      <div className={cn('mt-5', featured && 'max-w-3xl lg:mt-0')}>
+        <p className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+          <span className="text-highlight">{String(index + 1).padStart(2, '0')}</span>
+          {project.subtitle ? <span> · {project.subtitle}</span> : null}
+        </p>
 
         <h3 className={cn('mt-2 font-semibold tracking-[-0.035em] text-foreground', featured ? 'text-3xl' : 'text-2xl')}>
           {hasWebsite ? (
@@ -90,25 +118,38 @@ function ProjectItem({ featured, project }: ProjectItemProps) {
           )}
         </h3>
 
-        <p className="mt-3 text-[15px] leading-7 text-muted-foreground">
+        <p className="mt-3 text-[0.9375rem] leading-7 text-muted-foreground">
           {project.description}
         </p>
 
         {project.technologies.length > 0 ? (
-          <p className="mt-4 text-xs font-medium leading-6 text-muted-foreground/75">
-            {project.technologies.join('  ·  ')}
-          </p>
+          <ul className="mt-5 flex flex-wrap gap-2" aria-label={`Technologies du projet ${project.title}`}>
+            {project.technologies.map((technology) => (
+              <li
+                key={technology}
+                className="rounded-full border border-border/80 px-2.5 py-1 text-[0.6875rem] font-medium text-muted-foreground"
+              >
+                {technology}
+              </li>
+            ))}
+          </ul>
         ) : null}
       </div>
     </article>
   )
 }
 
+// Le premier projet est mis en avant ; le dernier aussi s'il resterait seul sur sa ligne.
+function isFeatured(index: number, total: number) {
+  const lastIsAlone = (total - 1) % 2 === 1
+  return index === 0 || (lastIsAlone && index === total - 1)
+}
+
 export function ProjectsSection({ data: projects }: ProjectsSectionProps) {
   if (projects.length === 0) return null
 
   return (
-    <section id="projects" className="py-20 sm:py-28">
+    <section id="projects" className="py-16 sm:py-24">
       <div className="section-shell">
         <SectionHeading
           index="02 · Projets"
@@ -116,9 +157,15 @@ export function ProjectsSection({ data: projects }: ProjectsSectionProps) {
           description="Des problèmes concrets transformés en produits simples, de la plateforme métier à l’outil desktop."
         />
 
-        <div className="mt-14 grid gap-x-8 gap-y-16 sm:grid-cols-2">
+        <div className="mt-12 grid gap-x-8 gap-y-16 sm:grid-cols-2">
           {projects.map((project, index) => (
-            <ProjectItem key={project.title} project={project} featured={index === 0} />
+            <ProjectItem
+              key={project.title}
+              project={project}
+              index={index}
+              featured={isFeatured(index, projects.length)}
+              reversed={index > 0}
+            />
           ))}
         </div>
       </div>

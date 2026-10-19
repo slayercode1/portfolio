@@ -18,41 +18,53 @@ interface AboutSectionProps {
   data: AboutData
 }
 
+// Sépare « Intitulé (Bac+5) » en intitulé et niveau pour les afficher sur deux colonnes.
+function splitCertificationTitle(title: string) {
+  const match = title.match(/^(.*?)\s*\(([^)]+)\)$/)
+  return match ? { name: match[1], level: match[2] } : { name: title, level: null }
+}
+
 export function AboutSection({ data }: AboutSectionProps) {
   return (
-    <section id="about" className="py-20 sm:py-28">
+    <section id="about" className="py-16 sm:py-24">
       <div className="section-shell">
         <SectionHeading index="01 · Profil" title={data.title} description={data.description} />
 
-        <div className="mt-14 grid gap-12 lg:grid-cols-2 lg:gap-20">
+        <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-20">
           {data.certifications.length > 0 && (
             <div>
-              <h3 className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+              <h3 className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                 {data.certificationsTitle}
               </h3>
-              <ul className="mt-5 space-y-4">
-                {data.certifications.map((cert) => (
-                  <li key={cert.key} className="flex gap-3 text-[15px] leading-6 text-muted-foreground">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
-                    <span>{cert.title}</span>
-                  </li>
-                ))}
+              <ul className="mt-5 divide-y divide-border/70 border-y border-border/70">
+                {data.certifications.map((cert) => {
+                  const { name, level } = splitCertificationTitle(cert.title)
+
+                  return (
+                    <li key={cert.key} className="flex items-baseline justify-between gap-6 py-4 text-[0.9375rem] leading-6">
+                      <span className="text-foreground/90">{name}</span>
+                      {level ? (
+                        <span className="shrink-0 font-mono text-xs font-medium text-muted-foreground">{level}</span>
+                      ) : null}
+                    </li>
+                  )
+                })}
               </ul>
             </div>
           )}
 
           {data.technologies.length > 0 && (
             <div>
-              <h3 className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+              <h3 className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                 {data.stackTitle}
               </h3>
-              <ul className="mt-5 flex flex-wrap gap-x-3 gap-y-2" aria-label={data.stackTitle}>
-                {data.technologies.map((technology, index) => (
-                  <li key={technology} className="flex items-center gap-3 text-sm text-muted-foreground">
+              <ul className="mt-5 flex flex-wrap gap-2" aria-label={data.stackTitle}>
+                {data.technologies.map((technology) => (
+                  <li
+                    key={technology}
+                    className="rounded-full border border-border/80 bg-surface/50 px-3 py-1.5 text-sm text-muted-foreground"
+                  >
                     {technology}
-                    {index < data.technologies.length - 1 ? (
-                      <span className="text-highlight" aria-hidden="true">·</span>
-                    ) : null}
                   </li>
                 ))}
               </ul>

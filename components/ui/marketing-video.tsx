@@ -1,37 +1,47 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 interface ProjectHoverVideoProps {
   src: string
 }
 
+// Le survol est écouté sur le conteneur parent pour que les éléments superposés (lien, badges) ne bloquent pas la lecture.
 export function ProjectHoverVideo({ src }: ProjectHoverVideoProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
-  function playPreview() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    void videoRef.current?.play()
-  }
+  useEffect(() => {
+    const host = containerRef.current?.parentElement
+    if (!host) return
 
-  function stopPreview() {
-    const video = videoRef.current
-    if (!video) return
+    function playPreview() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+      void videoRef.current?.play()
+    }
 
-    video.pause()
-    video.currentTime = 0
-    setIsPlaying(false)
-  }
+    function stopPreview() {
+      const video = videoRef.current
+      if (!video) return
+
+      video.pause()
+      video.currentTime = 0
+      setIsPlaying(false)
+    }
+
+    host.addEventListener('mouseenter', playPreview)
+    host.addEventListener('mouseleave', stopPreview)
+
+    return () => {
+      host.removeEventListener('mouseenter', playPreview)
+      host.removeEventListener('mouseleave', stopPreview)
+    }
+  }, [])
 
   return (
-    <div
-      className="absolute inset-0 z-[5]"
-      onMouseEnter={playPreview}
-      onMouseLeave={stopPreview}
-      aria-hidden="true"
-    >
+    <div ref={containerRef} className="pointer-events-none absolute inset-0 z-[5]" aria-hidden="true">
       <video
         ref={videoRef}
         src={src}
