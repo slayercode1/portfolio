@@ -6,7 +6,9 @@ COPY package.json bun.lock ./
 
 RUN bun install --frozen-lockfile
 
-FROM oven/bun:1.3.4-alpine AS builder
+# Le build tourne sous Node : le runtime Bun ne sait pas charger les modules serveur de Next 16.4.
+FROM node:22-alpine AS builder
+COPY --from=oven/bun:1.3.4-alpine /usr/local/bin/bun /usr/local/bin/bun
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
